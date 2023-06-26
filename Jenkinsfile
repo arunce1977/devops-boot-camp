@@ -30,7 +30,16 @@ pipeline {
         sh '. /etc/profile.d/sonar-scanner.sh'
       }
     }
-
+    stage ('Analyzing Code Quality') {
+      steps {
+        sh '/opt/sonar-scanner/bin/sonar-scanner
+        -Dsonar.projectKey=johnalbertodev_devops-boot-camp
+        -Dsonar.organization=johnalbertodev -Dsonar.qualitygate.wait=true
+        -Dsonar.qualitygate.timeout=300 -Dsonar.sources=src/main/java/
+        -Dsonar.java.binaries=target/classes -Dsonar.host.url=https://sonarcloud.io
+        -Dsonar.login=0e39526b5a7972913bac10d761b2fad101ae393f'
+      }
+    }
     stage('Deploying Application') {
       steps {
         script{
